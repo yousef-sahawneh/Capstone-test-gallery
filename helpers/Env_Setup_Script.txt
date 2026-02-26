@@ -1,0 +1,26 @@
+**3D Camera Env Setup**
+
+Create a Python Env and install Numpy
+```
+conda create -n Capstone python=3.9 numpy
+```
+
+Activate the Python Env we just created
+```
+conda activate Capstone
+```
+
+Install OpenCV
+```
+conda install -c conda-forge opencv
+```
+
+Install matplotlib
+```
+conda install matplotlib
+```
+
+Install OpenNi and Open3D
+```
+pip install openni open3d
+```
