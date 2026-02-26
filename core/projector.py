@@ -3,6 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 from core.projector_config import ProjectorConfig
+from core.cloud_compare_config import CompareConfig
 
 
 class Projector:
@@ -37,16 +38,18 @@ class Projector:
         image : (800, 1280, 3) uint8 BGR array
         """
         cfg = self.cfg
-        grid_n = offsets.shape[0]          # 500
-        base_mm = 300.0                    # base plate size in mm
+        grid_n_x = offsets.shape[0]                    # num_col_x
+        grid_n_y = offsets.shape[1]                    # num_row_y
+        base_mm_x = CompareConfig.base_plate_x        # mm
+        base_mm_y = CompareConfig.base_plate_y        # mm
 
         # --- Build world-space XYZ for every grid cell ---
-        i_idx = np.arange(grid_n)
-        j_idx = np.arange(grid_n)
-        ii, jj = np.meshgrid(i_idx, j_idx, indexing="ij")  # (500, 500)
+        i_idx = np.arange(grid_n_x)
+        j_idx = np.arange(grid_n_y)
+        ii, jj = np.meshgrid(i_idx, j_idx, indexing="ij")  # (num_col_x, num_row_y)
 
-        x_w = ii * (base_mm / grid_n)     # 0 → 300 mm
-        y_w = -jj * (base_mm / grid_n)    # 0 → -300 mm
+        x_w = ii * (base_mm_x / grid_n_x)     # 0 → base_plate_x mm
+        y_w = -jj * (base_mm_y / grid_n_y)    # 0 → -base_plate_y mm
         z_w = cad_heights                  # CAD surface height
 
         # --- Translate into projector-relative frame ---
